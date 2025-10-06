@@ -1,29 +1,23 @@
 #include <PS4Controller.h>
+
 #include <cstdint>
 
 void setup() {
   Serial.begin(115200);
-  PS4.begin();
-  Serial.println("Ready.");
+  PS4.begin("");
 }
 
 void loop() {
   if (PS4.isConnected()) {
-    if (PS4.LStickX()) {
-        int8_t num1 = PS4.LStickX();
-        String str1 = String(static_cast<int>(num1));
-        Serial.print(str1+"\n");
+
+    if (PS4.LStickX()&&PS4.LStickY()&&PS4.RStickX()) {
+
+        int8_t num[3] = {PS4.LStickX(),PS4.LStickY(),PS4.RStickX()};
+        for(int i = 0;i <= 2;i++){
+          String str1 = String(static_cast<int>(num[i] + i*255));
+          Serial.print(str1 + "\n");
+        }
     }
-    if (PS4.LStickY()) {
-        int8_t num2 = PS4.LStickY();
-        String str2 = String(static_cast<int>(num2) + 256);
-        Serial.print(str2+"\n");
-    }
-    if (PS4.RStickX()) {
-        int8_t num3 = PS4.RStickX();
-        String str3 = String(static_cast<int>(num3) + 512);
-        Serial.print(str3+"\n");
-    }
-    delay(1000);
+    delay(100);
   }
 }
